@@ -1,176 +1,3 @@
-<div dir="rtl" align="right">
-
-# 🤖 دستیار پرسش‌وپاسخ اسناد | Document Q&A Agent
-
-یک دستیار هوشمند مبتنی بر **بازیابی افزوده با تولید (RAG)** که به شما امکان می‌دهد اسناد PDF و Word را بارگذاری کنید و پرسش‌های خود را به زبان طبیعی درباره محتوای آن‌ها بپرسید.
-
-این پروژه با استفاده از **Python، Streamlit، Google Gemini و ChromaDB** ساخته شده است. متن اسناد استخراج و به بخش‌های کوچک‌تر (Chunks) تقسیم می‌شود؛ سپس با استفاده از Embeddingها در پایگاه داده برداری ذخیره می‌شود. هنگام طرح سؤال، بخش‌های مرتبط بازیابی شده و برای تولید پاسخ در اختیار مدل زبانی قرار می‌گیرند.
-
----
-
-## ✨ قابلیت‌ها
-
-- 📄 بارگذاری و پردازش فایل‌های **PDF** و **DOCX**
-- 🧩 استخراج متن و تقسیم آن به بخش‌های هم‌پوشان (Chunking)
-- 🔎 جست‌وجوی معنایی در محتوای سند با Embedding
-- 🧠 تولید پاسخ با استفاده از مدل‌های Google Gemini
-- 📚 نمایش بخش‌های بازیابی‌شده به‌عنوان منابع پاسخ
-- 💬 رابط گفت‌وگویی ساده با Streamlit
-- 🗂️ ذخیره‌سازی بردارها به‌صورت محلی و پایدار با ChromaDB
-- 🌐 پشتیبانی از پرسش و پاسخ فارسی و انگلیسی
-- 🛡️ مدیریت خطاهای رایج API، شبکه و ورودی فایل
-
-## 🏗️ معماری پروژه
-
-جریان اصلی پردازش در این پروژه به شکل زیر است:
-
-```text
-             User
-              |
-              v
-       Streamlit Interface
-              |
-              v
-      Upload PDF / DOCX
-              |
-              v
-       Text Extraction
-              |
-              v
-          Chunking
-              |
-              v
-      Gemini Embeddings
-              |
-              v
-        ChromaDB Store
-              |
-              |  User Question
-              v
-       Query Embedding
-              |
-              v
-      Semantic Retrieval
-              |
-              v
-       Relevant Chunks
-              |
-              v
-        Gemini LLM
-              |
-              v
-         Final Answer
-```
-
-## 🧰 فناوری‌ها و ابزارها
-
-| فناوری | کاربرد |
-|---|---|
-| Python | زبان برنامه‌نویسی اصلی |
-| Streamlit | رابط کاربری وب |
-| Google Gemini API | تولید Embedding و پاسخ |
-| ChromaDB | پایگاه داده برداری |
-| PyMuPDF | استخراج متن از PDF |
-| python-docx | استخراج متن از DOCX |
-| python-dotenv | بارگذاری متغیرهای محیطی |
-| httpx | پشتیبانی از مدیریت خطاهای ارتباطی |
-
-## 🚀 نصب و راه‌اندازی
-
-### ۱. دریافت پروژه
-
-```bash
-git clone https://github.com/YOUR_USERNAME/document-qa-agent.git
-cd document-qa-agent
-```
-
-> آدرس مخزن را پس از انتشار پروژه در GitHub با آدرس واقعی جایگزین کنید.
-
-### ۲. ایجاد محیط مجازی
-
-```bash
-python -m venv .venv
-```
-
-فعال‌سازی در Windows CMD:
-
-```cmd
-.venv\Scripts\activate.bat
-```
-
-فعال‌سازی در PowerShell:
-
-```powershell
-.venv\Scripts\Activate.ps1
-```
-
-### ۳. نصب وابستگی‌ها
-
-```bash
-pip install -r requirements.txt
-```
-
-### ۴. تنظیم کلید API
-
-در پوشه اصلی پروژه، فایلی با نام `.env` ایجاد کنید و کلید API خود را در آن قرار دهید:
-
-```env
-GEMINI_API_KEY=YOUR_GEMINI_API_KEY
-```
-
-برای دریافت کلید API می‌توانید به [Google AI Studio](https://aistudio.google.com/) مراجعه کنید.
-
-**مهم:** فایل `.env` حاوی اطلاعات محرمانه است. آن را در GitHub منتشر نکنید.
-
-### ۵. اجرای برنامه
-
-```bash
-streamlit run app.py
-```
-
-پس از اجرا، Streamlit برنامه را در مرورگر باز می‌کند. در صورت باز نشدن خودکار، آدرس محلی نمایش‌داده‌شده در ترمینال را باز کنید.
-
-## 💡 نحوه استفاده
-
-1. برنامه را اجرا کنید.
-2. یک فایل PDF یا DOCX بارگذاری کنید.
-3. منتظر بمانید تا متن استخراج، قطعه‌بندی و در پایگاه داده برداری ذخیره شود.
-4. سؤال خود را درباره محتوای سند وارد کنید.
-5. پاسخ تولیدشده و بخش‌های بازیابی‌شده را بررسی کنید.
-6. پرسش‌های بعدی را در همان گفت‌وگو مطرح کنید.
-
-## ⚙️ تنظیمات و نکات فنی
-
-- کلید API از متغیر محیطی `GEMINI_API_KEY` خوانده می‌شود.
-- پایگاه داده محلی ChromaDB در پوشه `chroma_db/` نگهداری می‌شود.
-- شناسه محتوایی فایل برای تشخیص فایل و محدودکردن بازیابی به سند فعال استفاده می‌شود.
-- پاسخ‌ها بر اساس محتوای بازیابی‌شده از سند تولید می‌شوند؛ اگر اطلاعات کافی در سند وجود نداشته باشد، برنامه باید این موضوع را اعلام کند.
-
-## ⚠️ محدودیت‌های شناخته‌شده
-
-- **OCR پشتیبانی نمی‌شود:** فایل‌های PDF اسکن‌شده که متن قابل‌استخراج ندارند، بدون مرحله OCR قابل پردازش محتوایی نیستند.
-- در فایل‌های DOCX، استخراج متن بر محتوای متنی پاراگراف‌ها و جدول‌ها متمرکز است؛ همه اجزای پیشرفته Word مانند Text Boxها یا محتوای سربرگ و پابرگ لزوماً استخراج نمی‌شوند.
-- کیفیت پاسخ به کیفیت متن استخراج‌شده، قطعه‌بندی و مرتبط‌بودن بخش‌های بازیابی‌شده وابسته است.
-- این نسخه یک نمونه کاربردی اولیه (MVP) است و برای استفاده سازمانی یا اسناد بسیار بزرگ به ارزیابی و بهینه‌سازی بیشتر نیاز دارد.
-
-## 🔮 توسعه‌های آینده
-
-- افزودن OCR برای PDFهای اسکن‌شده
-- بهبود بازیابی اطلاعات از بخش‌های متعدد سند
-- افزودن پشتیبانی از فرمت‌های بیشتر
-- بهبود ارزیابی کیفیت بازیابی و پاسخ‌ها
-- افزودن قابلیت مدیریت چند سند
-
-## 🔐 امنیت
-
-- کلیدهای API را فقط در فایل محلی `.env` نگهداری کنید.
-- فایل `.env`، محیط مجازی و پایگاه داده محلی در `.gitignore` قرار می‌گیرند.
-- پیش از انتشار، مطمئن شوید هیچ کلید، سند شخصی یا داده محرمانه‌ای در مخزن Git قرار نگرفته باشد.
-
----
-
-</div>
-
 # 🤖 Document Q&A Agent
 
 An AI-powered document question-answering application built with **Retrieval-Augmented Generation (RAG)**. It allows users to upload PDF and Word documents and ask natural-language questions about their contents.
@@ -194,41 +21,41 @@ The application uses **Python, Streamlit, Google Gemini, and ChromaDB**. Documen
 ## 🏗️ Architecture
 
 ```text
-             User
-              |
-              v
-       Streamlit Interface
-              |
-              v
-      Upload PDF / DOCX
-              |
-              v
-       Text Extraction
-              |
-              v
-          Chunking
-              |
-              v
-      Gemini Embeddings
-              |
-              v
-        ChromaDB Store
-              |
-              |  User Question
-              v
-       Query Embedding
-              |
-              v
-      Semantic Retrieval
-              |
-              v
-       Relevant Chunks
-              |
-              v
-        Gemini LLM
-              |
-              v
-         Final Answer
+                User
+                  |
+                  v
+          Streamlit Interface
+                  |
+          +-------+-------+
+          |               |
+          v               v
+     Upload Document   User Question
+          |               |
+          v               v
+    Text Extraction   Query Embedding
+          |               |
+          v               |
+       Chunking           |
+          |               |
+          v               |
+    Gemini Embeddings     |
+          |               |
+          v               |
+     ChromaDB Store       |
+          |               |
+          +-------+-------+
+                  |
+                  v
+           Semantic Retrieval
+                  |
+                  v
+           Relevant Chunks
+                  |
+                  v
+             Gemini LLM
+                  |
+                  v
+             Final Answer
 ```
 
 ## 🧰 Tech Stack
@@ -242,18 +69,16 @@ The application uses **Python, Streamlit, Google Gemini, and ChromaDB**. Documen
 | PyMuPDF | PDF text extraction |
 | python-docx | DOCX text extraction |
 | python-dotenv | Environment variable management |
-| httpx | Network error handling support |
+| httpx | HTTP client and network communication |
 
 ## 🚀 Installation
 
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/document-qa-agent.git
+git clone https://github.com/bankehsaz/document-qa-agent.git
 cd document-qa-agent
 ```
-
-Replace the placeholder repository URL with your actual GitHub repository URL after publishing the project.
 
 ### 2. Create a virtual environment
 
@@ -324,11 +149,11 @@ Streamlit will start the application and provide a local URL. Open that URL in y
 
 ## 🔮 Future Improvements
 
-- Add OCR support for scanned PDFs
-- Improve retrieval and reasoning across multiple document sections
-- Support additional document formats
-- Add retrieval and answer-quality evaluation
-- Introduce multi-document management
+- Add OCR support for scanned PDFs.
+- Improve retrieval and reasoning across multiple document sections.
+- Support additional document formats.
+- Add retrieval and answer-quality evaluation.
+- Introduce multi-document management.
 
 ## 🔐 Security
 
